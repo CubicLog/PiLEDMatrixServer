@@ -17,6 +17,7 @@ options.cols = 64
 options.chain_length = 1
 options.parallel = 1
 options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafruit-hat'
+options.pwm_lsb_nanoseconds = 100
 
 matrix = RGBMatrix(options = options)
 
