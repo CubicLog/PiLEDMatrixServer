@@ -1,22 +1,21 @@
 import time
-import sys
+import sys, os
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
 
-if len(sys.argv) < 2:
-    sys.exit("Require an image argument")
-else:
-    image_file = sys.argv[1]
+#------Change Dir------
+dname = os.path.dirname(os.path.realpath(__file__))
+os.chdir(dname)
 
-image = Image.open(image_file)
+image = Image.open("EmperixLOGO64bit.png")
 
 # Configuration for the matrix
 options = RGBMatrixOptions()
 options.rows = 32
 options.chain_length = 1
 options.parallel = 1
-options.hardware_mapping = 'regular'  # If you have an Adafruit HAT: 'adafruit-hat'
+options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafruit-hat'
 
 matrix = RGBMatrix(options = options)
 
