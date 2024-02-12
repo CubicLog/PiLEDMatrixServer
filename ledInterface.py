@@ -8,7 +8,7 @@ from PIL import Image
 dname = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dname)
 
-image = Image.open("EmperixLOGO64bit.png")
+image = Image.open("phoenixLimit64.png")
 
 # Configuration for the matrix
 options = RGBMatrixOptions()
