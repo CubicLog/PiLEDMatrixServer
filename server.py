@@ -11,7 +11,7 @@ app.config['JSON_AS_ASCII'] = False
 def set_image():
     json = request.get_json(force=True)
 
-    jsonify({}), 201
+    return jsonify({}), 201
 
 if __name__ == "__main__":
     print("Started Rest API")
