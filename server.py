@@ -7,7 +7,7 @@ log.disabled = True
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-@app.route("api/setimage", methods=["POST"])
+@app.route("/api/setimage", methods=["POST"])
 def set_image():
     json = request.get_json(force=True)
 
