@@ -47,7 +47,7 @@ def handle_frame(data):
     # Convert binary data to PIL image
     image = Image.open(io.BytesIO(image_data))
 
-    matrix.set_image(data)
+    matrix.set_image(image)
 
 
 if __name__ == "__main__":
