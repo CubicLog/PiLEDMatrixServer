@@ -7,10 +7,11 @@ os.chdir(dname)
 
 # Your image file
 image = Image.open("EmperixLOGO64bit.png")
+image = image.convert("RGB")
 
 # Convert PIL Image to a bytes-like object that can be sent via HTTP
 buf = io.BytesIO()
-image.save(buf, format='JPEG')
+image.save(buf, format='PNG')
 image_bytes = buf.getvalue()
 
 # The URL of the Flask endpoint
@@ -21,8 +22,5 @@ files = {'file': ('image.jpg', image_bytes, 'image/jpeg')}
 response = requests.post('http://raspberrypi:5000/api/setimage', files=files)
 
 print(response.json())
-
-
-
 
 # github personal access token: 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

@@ -16,4 +16,4 @@ class MatrixManager():
         self.matrix = RGBMatrix(options=self.options)
     
     def set_image(self, image):
-        self.matrix.SetImage(image)
+        self.matrix.SetImage(image, unsafe=False)
