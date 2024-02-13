@@ -14,12 +14,11 @@ image.save(buf, format='JPEG')
 image_bytes = buf.getvalue()
 
 # The URL of the Flask endpoint
-url = 'http://yourserveraddress/api/setimage'
 
 # Use 'files' parameter to send image as multipart/form-data
 files = {'file': ('image.jpg', image_bytes, 'image/jpeg')}
 
-response = requests.post(url, files=files)
+response = requests.post('http://raspberrypi:5000/api/setimage', files=files)
 
 print(response.json())
 
