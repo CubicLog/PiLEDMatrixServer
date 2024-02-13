@@ -14,7 +14,7 @@ log.disabled = True
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-matrix = ledInterface.MatrixManager()
+matrix = ledInterface.MatrixManager(64, 64)
 
 @app.route("/api/setimage", methods=["POST"])
 def set_image():
