@@ -43,24 +43,41 @@ dir = filedialog.askopenfile(filetypes=[('video files','.mp4')])
 # Create a Socket.IO client
 sio = socketio.Client()
 
-# Establish a connection to the Flask-SocketIO server
-sio.connect('http://your_raspberry_pi_address:5000')
+# Initialize Socket.IO client
+sio = socketio.Client()
 
-cap = cv2.VideoCapture(dir.name)
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-    # Convert the frame to JPEG and then to a base64 string
-    _, buffer = cv2.imencode('.jpg', frame)
-    frame_base64 = base64.b64encode(buffer).decode('utf-8')
+# Handle connection event
+@sio.event
+def connect():
+    print("Connected to the server.")
+    cap = cv2.VideoCapture(dir.name)
+    i = 0
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        
+        # Resize the frame to 64x64
+        resized_frame = cv2.resize(frame, (64, 64))
+        
+        # Convert the resized frame to JPEG and then to a base64 string
+        _, buffer = cv2.imencode('.jpg', resized_frame)
+        frame_base64 = base64.b64encode(buffer).decode('utf-8')
 
-    # Send the frame over the WebSocket connection
-    sio.emit('frame', {'data': frame_base64})
+        # Send the frame over the WebSocket connection
+        sio.emit('frame', {'data': frame_base64})
+        print(i)
+        i += 1
+        time.sleep(1/30)
 
-cap.release()
+    cap.release()
+    sio.disconnect()
 
-# Disconnect from the server
-sio.disconnect()
+@sio.event
+def disconnect():
+    print("Disconnected from the server.")
+
+# Connect to the Flask-SocketIO server
+sio.connect('http://raspberrypi:5000')
 
 # github personal access token: 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

@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request, render_template, redirect
 from flask_socketio import SocketIO
 import logging, io
 from PIL import Image
+import base64
 
 import ledInterface
 
@@ -40,9 +41,13 @@ def index():
 
 @socketio.on('frame')
 def handle_frame(data):
-    # Process the received frame
-    # This could involve extracting the frame data and displaying it on the LED matrix
-    print('Received frame')
+    # Decode the base64 string
+    image_data = base64.b64decode(data['data'])
+    
+    # Convert binary data to PIL image
+    image = Image.open(io.BytesIO(image_data))
+
+    matrix.set_image(data)
 
 
 if __name__ == "__main__":
