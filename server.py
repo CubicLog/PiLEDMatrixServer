@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, render_template, redirect
-import logging, io, os
+import logging, io
 from PIL import Image
 
 import ledInterface
