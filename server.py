@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from flask import Flask, jsonify, request, render_template, redirect
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 import logging, io
 from PIL import Image
 
@@ -47,4 +47,4 @@ def handle_frame(data):
 
 if __name__ == "__main__":
     print("Started Rest API")
-    socketio.run(host="0.0.0.0", port=5000, debug=False)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=False)
