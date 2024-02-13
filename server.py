@@ -4,10 +4,6 @@ from PIL import Image
 
 import ledInterface
 
-#------Change Dir------
-dname = os.path.dirname(os.path.realpath(__file__))
-os.chdir(dname)
-
 log = logging.getLogger('werkzeug')
 log.disabled = True
 
