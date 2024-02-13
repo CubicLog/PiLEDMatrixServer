@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from flask import Flask, jsonify, request, render_template, redirect
+from flask_socketio import SocketIO, emit
 import logging, io
 from PIL import Image
 
@@ -11,6 +12,7 @@ log.disabled = True
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
+socketio = SocketIO(app)
 
 matrix = ledInterface.MatrixManager(64, 64)
 
@@ -32,7 +34,17 @@ def set_image():
         
         return jsonify({'message': 'Image processed successfully'}), 201
 
+@app.route('/')
+def index():
+    return jsonify({}), 200
+
+@socketio.on('frame')
+def handle_frame(data):
+    # Process the received frame
+    # This could involve extracting the frame data and displaying it on the LED matrix
+    print('Received frame')
+
 
 if __name__ == "__main__":
     print("Started Rest API")
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    socketio.run(host="0.0.0.0", port=5000, debug=False)
