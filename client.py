@@ -40,44 +40,37 @@ root = tk.Tk()
 root.withdraw()
 dir = filedialog.askopenfile(filetypes=[('video files','.mp4')])
 
-# Create a Socket.IO client
-sio = socketio.Client()
+# Open the input video
+cap = cv2.VideoCapture(dir.name)
+# Get video codec and fps
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Adjust codec as per your video format
+fps = cap.get(cv2.CAP_PROP_FPS)
 
-# Initialize Socket.IO client
-sio = socketio.Client()
+new_path = f"{dir.name.split(".")[0]} [RESIZED64x64]{dir.name.split(".")[1]}"
 
-# Handle connection event
-@sio.event
-def connect():
-    print("Connected to the server.")
-    cap = cv2.VideoCapture(dir.name)
-    i = 0
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        
-        # Resize the frame to 64x64
-        resized_frame = cv2.resize(frame, (64, 64))
-        
-        # Convert the resized frame to JPEG and then to a base64 string
-        _, buffer = cv2.imencode('.jpg', resized_frame)
-        frame_base64 = base64.b64encode(buffer).decode('utf-8')
+# Create a VideoWriter object for the output video
+out = cv2.VideoWriter(new_path, fourcc, fps, (64, 64))
 
-        # Send the frame over the WebSocket connection
-        sio.emit('frame', {'data': frame_base64})
-        print(i)
-        i += 1
-        time.sleep(1/30)
+print("resizing...")
+# Read and resize each frame
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    resized_frame = cv2.resize(frame, (64, 64))
+    out.write(resized_frame)
 
-    cap.release()
-    sio.disconnect()
+print("finished resizing")
 
-@sio.event
-def disconnect():
-    print("Disconnected from the server.")
+# Release everything
+cap.release()
+out.release()
 
-# Connect to the Flask-SocketIO server
-sio.connect('http://raspberrypi:5000')
+# Upload the resized video to the server
+url = 'http://raspberrypi:5000/api/uploadvideo'
+files = {'video': open(new_path, 'rb')}
+response = requests.post(url, files=files)
+
+print("uploaded")
 
 # github personal access token: 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
