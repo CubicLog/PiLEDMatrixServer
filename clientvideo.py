@@ -78,7 +78,7 @@ if __name__ == "__main__":
                 await websocket.send(img_str)
                 time.sleep(time_per_frame)
                 #input("pause...")
-                #response = await websocket.recv()
+                response = await websocket.recv()
                 #print(response)
 
     asyncio.get_event_loop().run_until_complete(test())
