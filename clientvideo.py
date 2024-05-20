@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
             fps = cap.get(cv2.CAP_PROP_FPS)
             ime_per_frame = 1 / fps
-            fps_limit = 20
+            fps_limit = 30
             time_per_frame = 1 / fps_limit
 
             start_time = time.time()

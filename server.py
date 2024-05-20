@@ -97,13 +97,10 @@ def handle_disconnect():
 
 @socketio.on('frame')
 def handle_frame(data):
-    print("Frame received")
     # Decode the base64 string
     image_data = base64.b64decode(data['data'])
     # Convert binary data to PIL image
     image = Image.open(io.BytesIO(image_data))
-
-    print("got image data")
 
     matrix.set_image(image)
 
@@ -136,14 +133,11 @@ def upload_video():
 async def websocket_handler(websocket, path):
     while True:
         data = await websocket.recv()
-
-        print("Frame received")
+        
         # Decode the base64 string
         image_data = base64.b64decode(data)
         # Convert binary data to PIL image
         image = Image.open(io.BytesIO(image_data))
-
-        print("got image data")
 
         matrix.set_image(image)
 
