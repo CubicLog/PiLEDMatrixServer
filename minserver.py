@@ -6,12 +6,9 @@ import logging, io, os, base64
 from PIL import Image
 import time
 
-import ledInterface
+#import ledInterface
 
 from threading import Thread
-
-import eventlet
-import eventlet.wsgi
 
 playing_video = False
 
@@ -26,11 +23,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = "uploads"
 
-eventlet.monkey_patch()
-
 socketio = SocketIO(app, async_mode='gevent')
-
-matrix = ledInterface.MatrixManager(64, 64)
 
 """
 def video_player(filename):
@@ -81,7 +74,7 @@ def set_image():
         image = Image.open(file_stream)
         # Now you can process the image as needed, e.g., resize, filters, etc.
         # For demonstration, let's just print out the image size
-        matrix.set_image(image)
+        #matrix.set_image(image)
         
         return jsonify({'message': 'Image processed successfully'}), 201
 
@@ -105,7 +98,9 @@ def handle_frame(data):
     # Convert binary data to PIL image
     image = Image.open(io.BytesIO(image_data))
 
-    matrix.set_image(image)
+    print("got image data")
+
+    #matrix.set_image(image)
 
 """
 @app.route('/api/uploadvideo', methods=['POST'])
