@@ -10,6 +10,9 @@ import ledInterface
 
 from threading import Thread
 
+import eventlet
+import eventlet.wsgi
+
 playing_video = False
 
 #------Change Dir------
