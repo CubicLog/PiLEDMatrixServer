@@ -50,7 +50,7 @@ if __name__ == "__main__":
             fps = cap.get(cv2.CAP_PROP_FPS)
             ime_per_frame = 1 / fps
             fps_limit = 1
-            time_per_frame = 1 / fps_limit
+            time_per_frame = 0.5 / fps_limit
 
             start_time = time.time()
 
@@ -75,7 +75,8 @@ if __name__ == "__main__":
 
                 await websocket.send(img_str)
                 time.sleep(time_per_frame)
-                #response = await websocket.recv()
+                #input("pause...")
+                response = await websocket.recv()
                 #print(response)
 
     asyncio.get_event_loop().run_until_complete(test())
