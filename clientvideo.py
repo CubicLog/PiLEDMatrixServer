@@ -7,6 +7,7 @@ import io
 
 import asyncio
 import websockets
+import time
 
 # Function to convert a frame to base64
 def frame_to_base64(frame):
@@ -45,17 +46,33 @@ if __name__ == "__main__":
         async with websockets.connect('ws://raspberrypi:8000') as websocket:
 
             cap = cv2.VideoCapture('bad apple.mp4')
+
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            ime_per_frame = 1 / fps
+
+            start_time = time.time()
+
             while cap.isOpened():
                 ret, frame = cap.read()
                 if not ret:
                     print("break")
                     break
 
+                current_time = time.time()
+                elapsed_time = current_time - start_time
+                
+                # Calculate the expected frame number
+                expected_frame_number = int(elapsed_time * fps)
+                print(expected_frame_number)
+                
+                # Set the video capture to the expected frame
+                cap.set(cv2.CAP_PROP_POS_FRAMES, expected_frame_number)
+
                 # Convert frame to base64
                 img_str = frame_to_base64(frame)
 
                 await websocket.send(img_str)
-                response = await websocket.recv()
+                #response = await websocket.recv()
                 #print(response)
 
     asyncio.get_event_loop().run_until_complete(test())
