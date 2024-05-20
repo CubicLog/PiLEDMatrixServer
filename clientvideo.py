@@ -5,7 +5,7 @@ import json
 from PIL import Image
 import io
 
-#websocket.enableTrace(True)
+websocket.enableTrace(True)
 
 # Function to convert a frame to base64
 def frame_to_base64(frame):
