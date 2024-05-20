@@ -21,6 +21,7 @@ def on_open(ws):
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
+            print("break")
             break
         
         # Convert frame to base64
@@ -29,6 +30,7 @@ def on_open(ws):
         # Send frame via websocket
         ws.send(json.dumps({"data": img_str}))
 
+    print("close")
     cap.release()
     ws.close()
 
@@ -41,11 +43,11 @@ def on_error(ws, error):
     print(f"Error: {error}")
 
 # Callback function when the websocket is closed
-def on_close(ws):
+def on_close(ws, close_status_code, close_msg):
     print("WebSocket closed")
 
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("ws://localhost:5000/frame",
+    ws = websocket.WebSocketApp("ws://raspberrypi:5000",
                                 on_open=on_open,
                                 on_message=on_message,
                                 on_error=on_error,

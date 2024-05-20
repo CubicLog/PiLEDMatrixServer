@@ -22,7 +22,7 @@ log.disabled = True
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = "uploads"
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode='eventlet')
 
 matrix = ledInterface.MatrixManager(64, 64)
 
