@@ -25,6 +25,9 @@ log.disabled = True
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = "uploads"
+
+eventlet.monkey_patch()
+
 socketio = SocketIO(app, async_mode='eventlet')
 
 matrix = ledInterface.MatrixManager(64, 64)
@@ -85,6 +88,15 @@ def set_image():
 @app.route('/')
 def index():
     return jsonify({}), 200
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    socketio.emit('response', {'data': 'Connected'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
 @socketio.on('frame')
 def handle_frame(data):

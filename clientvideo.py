@@ -29,6 +29,8 @@ def on_open(ws):
         # Send frame via websocket
         ws.send(json.dumps({"data": img_str}))
 
+    print("close")
+
     cap.release()
     ws.close()
 
