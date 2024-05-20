@@ -83,8 +83,6 @@ def set_image():
 def index():
     return jsonify({}), 200
 
-"""
-
 @socketio.on('frame')
 def handle_frame(data):
     # Decode the base64 string
@@ -95,6 +93,7 @@ def handle_frame(data):
 
     matrix.set_image(image)
 
+"""
 @app.route('/api/uploadvideo', methods=['POST'])
 def upload_video():
     global playing_video

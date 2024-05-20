@@ -12,7 +12,7 @@ dname = os.path.dirname(os.path.realpath(__file__))
 os.chdir(dname)
 
 # Your image file
-image = Image.open("EmperixLOGO64bit.png")
+image = Image.open("emperix1-21.png")
 image = image.convert("RGB")
 
 # Convert PIL Image to a bytes-like object that can be sent via HTTP
