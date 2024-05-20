@@ -5,7 +5,7 @@ import json
 from PIL import Image
 import io
 
-websocket.enableTrace(True)
+#websocket.enableTrace(True)
 
 # Function to convert a frame to base64
 def frame_to_base64(frame):
@@ -18,18 +18,21 @@ def frame_to_base64(frame):
 # Callback function when the websocket is opened
 def on_open(ws):
     print("WebSocket opened")
-    cap = cv2.VideoCapture('your_video_file.mp4')
-    
+    cap = cv2.VideoCapture('bad apple.mp4')
+    print(f"is open: {cap.isOpened()}")
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
+            print("break")
             break
 
         # Convert frame to base64
         img_str = frame_to_base64(frame)
         
         # Send frame via websocket
+        print("send")
         ws.send(json.dumps({"data": img_str}))
+        print("after send")
 
     print("close")
 

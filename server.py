@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import eventlet
+
+eventlet.monkey_patch()
+
 from flask import Flask, jsonify, request, render_template, redirect
 from flask_socketio import SocketIO
 import logging, io, os, base64
@@ -23,7 +27,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = "uploads"
 
-socketio = SocketIO(app, async_mode='gevent')
+socketio = SocketIO(app, async_mode='eventlet')
 
 matrix = ledInterface.MatrixManager(64, 64)
 
