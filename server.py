@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, render_template, redirect
 from flask_socketio import SocketIO
 import logging, io, os, base64
 from PIL import Image
-import cv2, time
+import time
 
 import ledInterface
 
@@ -26,6 +26,7 @@ socketio = SocketIO(app)
 
 matrix = ledInterface.MatrixManager(64, 64)
 
+"""
 def video_player(filename):
     global playing_video
 
@@ -56,6 +57,7 @@ def video_player(filename):
             matrix.set_image(image)
     
     playing_video = False
+"""
         
 
 @app.route("/api/setimage", methods=["POST"])
@@ -80,6 +82,8 @@ def set_image():
 @app.route('/')
 def index():
     return jsonify({}), 200
+
+"""
 
 @socketio.on('frame')
 def handle_frame(data):
@@ -113,6 +117,7 @@ def upload_video():
 
         return jsonify({'message': 'Video uploaded successfully and started playing'}), 201
 
+"""
 
 if __name__ == "__main__":
     print("Started Rest API")
