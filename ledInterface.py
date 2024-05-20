@@ -12,7 +12,7 @@ class MatrixManager():
         self.options.parallel = 1
         self.options.hardware_mapping = 'adafruit-hat'  # If you have an Adafruit HAT: 'adafruit-hat'
         #self.options.pwm_lsb_nanoseconds = 70
-        self.options.pwm_lsb_nanoseconds = 200
+        self.options.pwm_lsb_nanoseconds = 1000
 
         self.matrix = RGBMatrix(options=self.options)
     
