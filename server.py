@@ -151,7 +151,7 @@ async def websocket_handler(websocket, path):
         await websocket.send("")
 
 def start_websocket():
-    start_server = websockets.serve(websocket_handler, "localhost", 8000)
+    start_server = websockets.serve(websocket_handler, "0.0.0.0", 8000)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
