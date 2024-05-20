@@ -16,12 +16,11 @@ def frame_to_base64(frame):
 # Callback function when the websocket is opened
 def on_open(ws):
     print("WebSocket opened")
-    cap = cv2.VideoCapture('bad apple.mp4')
+    cap = cv2.VideoCapture('your_video_file.mp4')
     
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
-            print("break")
             break
         
         # Convert frame to base64
@@ -30,7 +29,6 @@ def on_open(ws):
         # Send frame via websocket
         ws.send(json.dumps({"data": img_str}))
 
-    print("close")
     cap.release()
     ws.close()
 
