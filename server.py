@@ -10,9 +10,6 @@ import ledInterface
 
 from threading import Thread
 
-import eventlet
-import eventlet.wsgi
-
 playing_video = False
 
 #------Change Dir------
@@ -25,8 +22,6 @@ log.disabled = True
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['UPLOAD_FOLDER'] = "uploads"
-
-eventlet.monkey_patch()
 
 socketio = SocketIO(app, async_mode='gevent')
 
@@ -104,6 +99,8 @@ def handle_frame(data):
     image_data = base64.b64decode(data['data'])
     # Convert binary data to PIL image
     image = Image.open(io.BytesIO(image_data))
+
+    print("got image data")
 
     matrix.set_image(image)
 
