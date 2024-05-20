@@ -49,8 +49,8 @@ if __name__ == "__main__":
 
             fps = cap.get(cv2.CAP_PROP_FPS)
             ime_per_frame = 1 / fps
-            fps_limit = 1
-            time_per_frame = 0.5 / fps_limit
+            fps_limit = 20
+            time_per_frame = 1 / fps_limit
 
             start_time = time.time()
 
@@ -70,13 +70,15 @@ if __name__ == "__main__":
                 # Set the video capture to the expected frame
                 cap.set(cv2.CAP_PROP_POS_FRAMES, expected_frame_number)
 
+                frame = cv2.resize(frame, (64, 64))
+
                 # Convert frame to base64
                 img_str = frame_to_base64(frame)
 
                 await websocket.send(img_str)
                 time.sleep(time_per_frame)
                 #input("pause...")
-                response = await websocket.recv()
+                #response = await websocket.recv()
                 #print(response)
 
     asyncio.get_event_loop().run_until_complete(test())

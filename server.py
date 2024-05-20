@@ -148,7 +148,7 @@ async def websocket_handler(websocket, path):
         matrix.set_image(image)
 
         #reply = f"Data recieved as:  {data}!"
-        await websocket.send("")
+        #await websocket.send("")
 
 def start_websocket():
     start_server = websockets.serve(websocket_handler, "0.0.0.0", 8000)
