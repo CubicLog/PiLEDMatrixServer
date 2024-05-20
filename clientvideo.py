@@ -5,7 +5,8 @@ import json
 from PIL import Image
 import io
 
-websocket.enableTrace(True)
+import asyncio
+import websockets
 
 # Function to convert a frame to base64
 def frame_to_base64(frame):
@@ -39,22 +40,22 @@ def on_open(ws):
     cap.release()
     ws.close()
 
-# Callback function when a message is received
-def on_message(ws, message):
-    print(f"Received: {message}")
-
-# Callback function when an error occurs
-def on_error(ws, error):
-    print(f"Error: {error}")
-
-# Callback function when the websocket is closed
-def on_close(ws, close_status_code, close_msg):
-    print("WebSocket closed")
-
 if __name__ == "__main__":
-    ws = websocket.WebSocketApp("ws://raspberrypi:5000",
-                                on_open=on_open,
-                                on_message=on_message,
-                                on_error=on_error,
-                                on_close=on_close)
-    ws.run_forever()
+    async def test():
+        async with websockets.connect('ws://localhost:8000') as websocket:
+
+            cap = cv2.VideoCapture('bad apple.mp4')
+            while cap.isOpened():
+                ret, frame = cap.read()
+                if not ret:
+                    print("break")
+                    break
+
+                # Convert frame to base64
+                img_str = frame_to_base64(frame)
+
+                await websocket.send(img_str)
+                response = await websocket.recv()
+                #print(response)
+
+    asyncio.get_event_loop().run_until_complete(test())

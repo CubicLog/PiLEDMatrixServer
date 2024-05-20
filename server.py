@@ -1,9 +1,5 @@
 #!/usr/bin/python
 
-import eventlet
-
-eventlet.monkey_patch()
-
 from flask import Flask, jsonify, request, render_template, redirect
 from flask_socketio import SocketIO
 import logging, io, os, base64
@@ -13,6 +9,9 @@ import time
 import ledInterface
 
 from threading import Thread
+
+import asyncio
+import websockets
 
 playing_video = False
 
@@ -133,6 +132,33 @@ def upload_video():
 
 """
 
+# create handler for each connection
+async def websocket_handler(websocket, path):
+    while True:
+        data = await websocket.recv()
+
+        print("Frame received")
+        # Decode the base64 string
+        image_data = base64.b64decode(data)
+        # Convert binary data to PIL image
+        image = Image.open(io.BytesIO(image_data))
+
+        print("got image data")
+
+        matrix.set_image(image)
+
+        #reply = f"Data recieved as:  {data}!"
+        await websocket.send("")
+
+def start_websocket():
+    start_server = websockets.serve(websocket_handler, "localhost", 8000)
+
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
+
 if __name__ == "__main__":
+
+    Thread(target=start_websocket).start()
+
     print("Started Rest API")
     socketio.run(app, host="0.0.0.0", port=5000, debug=False)
