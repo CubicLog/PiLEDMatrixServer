@@ -42,7 +42,7 @@ def on_open(ws):
 
 if __name__ == "__main__":
     async def test():
-        async with websockets.connect('ws://localhost:8000') as websocket:
+        async with websockets.connect('ws://raspberrypi:8000') as websocket:
 
             cap = cv2.VideoCapture('bad apple.mp4')
             while cap.isOpened():

@@ -158,7 +158,8 @@ def start_websocket():
 
 if __name__ == "__main__":
 
-    Thread(target=start_websocket).start()
+    #Thread(target=start_websocket).start()
+    start_websocket()
 
-    print("Started Rest API")
-    socketio.run(app, host="0.0.0.0", port=5000, debug=False)
+    #print("Started Rest API")
+    #socketio.run(app, host="0.0.0.0", port=5000, debug=False)
